@@ -1,0 +1,38 @@
+{% extends "home/base.html" %}
+{% load sb_quiver_extras %}
+{% block content %}
+{% include "sb_quiver/quiver_header.html" %}
+<article class="media content-section nice-padding">
+    <div class="media-body">
+        <div class="article-metadata">
+            <div class="row">
+                <div class="col-span-12"><h2 class="article-title">{{ object.title }} - {{ object.make }}</h2></div>
+            </div>
+            <div class="row">
+                <div class="col-span-4">
+                    <img class="img-rounded" width="350px" src="{{ board.image.url }}" alt="{{ board.name }}">
+                </div>
+                <div class="col-span-8">
+                    <p class="article-content">{{ object.content }}</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">Size: {{ object|convert_length }} x {{ object|convert_width }}</li>
+                        <li class="list-group-item">Volume: {{ object|convert_volume }}</li>
+                        <li class="list-group-item">Wave Range: {{ object|convert_wave_range_start }} to {{ object|convert_wave_range_end }}</li>
+                        <li class="list-group-item">Shaped by {{ board.shaper }}</li>
+                        <li class="list-group-item">{{ board.year }} - {{ board.year }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% if object.author == user %}
+        <div class="row">
+            <div class="col-span-6"><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'sb_quiver:board-update' object.id %}">Update</a>
+            </div>
+            <div class="col-span-6"><a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'sb_quiver:board-delete' object.id %}">Delete</a>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</article>
+{% endblock content %}

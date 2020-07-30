@@ -1,0 +1,95 @@
+{% extends "home/base.html" %}
+{% block content %}
+{% include "tasks/tasks_header.html" %}
+{% load task_extras %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% include 'data_visualisations/base/css.html' %}
+    {% include 'data_visualisations/base/js.html' %}
+<script>
+{% block jquery %}
+var endpoint = '/tasks/api/taskbarchart/data/?task_id={{ task.id }}'
+// {{ task.id }}/
+var defaultData = []
+var labels = []
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function( data ){
+        defaultData = data.default
+        labels = data.labels
+        setChart()
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+    function setChart(){
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'The last 4 weeks',
+                        data: defaultData,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+
+{% endblock %}
+</script>
+
+<div class="tasks-wrapper nice-padding" >
+    <h1>{{ task.task_text }}</h1>
+    <div class="flex flex9">
+        {% if not task.has_been_done_recently %}
+        <form action="{% url 'tasks:done' task.id %}" method="post">
+            {% csrf_token %}
+            <input type="checkbox" name="task_action" id="task_action_done" value="{{ task.id }}">
+            <input type="submit" value="Done">
+        </form>
+        {% else %}
+        <div class="child flex9-child">
+            This task has been done for today
+        </div>
+        {% endif %}
+        <div class="child flex9-child">
+            {{ task|write_tasks_done_in_week }}
+
+        </div>
+
+    </div>
+</div>
+<canvas id="myChart" class="taskGraphs"></canvas>
+
+{% endblock content %}

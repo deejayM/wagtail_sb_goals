@@ -1,0 +1,41 @@
+{% load menu_tags %}
+{% load wagtailcore_tags %}
+{% if menu_items %}
+ <nav class="nav-main">
+      <ul>
+        {% for item in menu_items %}
+          <li class="menu-item">
+              {% if item.handle == 'folder' %}
+              <a href="#" data-nav-primary-submenu-trigger="" class="submenu-trigger icon icon-{{ item.handle }}">{{ item.text }}</a>
+              <div class="nav-submenu">
+                  <h2 id="nav-submenu-quiver-title" class="icon icon-{{ item.handle }}">{{ item.text }}</h2>
+                  {% flat_menu 'sub-folder' template="menus/custom_sub_menu.html" %}
+              </div>
+              {% elif item.handle == 'date' %}
+              <a href="#" data-nav-primary-submenu-trigger="" class="submenu-trigger icon icon-{{ item.handle }}">{{ item.text }}</a>
+              <div class="nav-submenu">
+                  <h2 id="nav-submenu-calendar-title" class="icon icon-{{ item.handle }}">{{ item.text }}</h2>
+                  {% flat_menu 'sub-date' template="menus/custom_sub_menu.html" %}
+              </div>
+              {% elif item.handle == 'user' %}
+                  {% if request.user.is_authenticated %}
+                  <a href="#" data-nav-primary-submenu-trigger="" class="submenu-trigger icon icon-{{ item.handle }}">{{ item.text }}</a>
+                  <div class="nav-submenu">
+                  <h2 id="nav-submenu-calendar-title" class="icon icon-{{ item.handle }}">{{ item.text }}</h2>
+                  {% flat_menu 'sub-userloggedin' template="menus/custom_sub_menu.html" %}
+              </div>
+                  {% else %}
+                      <a href="#" data-nav-primary-submenu-trigger="" class="submenu-trigger icon icon-{{ item.handle }}">{{ item.text }}</a>
+                      <div class="nav-submenu">
+                          <h2 id="nav-submenu-calendar-title" class="icon icon-{{ item.handle }}">{{ item.text }}</h2>
+                          {% flat_menu 'sub-userloggedout' template="menus/custom_sub_menu.html" %}
+                      </div>
+                  {% endif %}
+              {% else %}
+              <a href="{{ item.href }}" class="icon icon-{{ item.handle }}">{{ item.text }}</a>
+          {% endif %}
+            </li>
+        {% endfor %}
+      </ul>
+ </nav>
+{% endif %}

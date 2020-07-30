@@ -1,0 +1,57 @@
+{% extends "home/base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% block body_class %}template-blogcalendarpage{% endblock %}
+{% load static %}
+{% block content %}
+{% include "blog/blog_header.html" %}
+<!-- calendar css available here https://www.w3schools.com/howto/howto_css_calendar.asp -->
+<link rel="stylesheet" type="text/css" href="{% static 'blog/blog_calendar_month.css' %}">
+<div class="nice-padding">
+<!-- How to make a calendar using bootstrap here - https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_calendar -->
+<div class="month">
+    <ul>
+        <li class="prev"><a class="btn btn-outline-info mb-4" style="text-decoration:none" href="?month={{ prev_month }}">&#10094;</a></li>
+        <li class="next">
+            {% if not this_month %}
+            <a class="btn btn-outline-info mb-4" href="?month={{ next_month }}" style="text-decoration:none">&#10095;</a>
+            {% endif %}</li>
+        <li>
+            <br>
+            <span style="font-size:24px">{{ month }}</span>
+        </li>
+    </ul>
+</div>
+<ul class="weekdays">
+    <li>Mo</li>
+    <li>Tu</li>
+    <li>We</li>
+    <li>Th</li>
+    <li>Fr</li>
+    <li>Sa</li>
+    <li>Su</li>
+</ul>
+
+<ul class="days">
+ {% if day_number_start == 1 %}
+    <li ></li>
+ {% elif day_number_start == 2 %}
+    <li ></li><li ></li>
+ {% elif day_number_start == 3 %}
+    <li ></li><li ></li><li ></li>
+ {% elif day_number_start == 4 %}
+ <li ></li><li ></li><li ></li><li ></li>
+ {% elif day_number_start == 5 %}
+ <li ></li><li ></li><li ></li><li ></li><li></li>
+ {% elif day_number_start == 6 %}
+ <li ></li><li ></li><li ></li><li ></li><li ></li><li></li>
+ {% endif %}
+
+    {% for day_html in day_output %}
+    <li class="border border-light" >{{ day_html|safe }}</li>
+    {% endfor %}
+
+<!--    <li><span class="active">10</span></li>-->
+
+</ul>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+    color: #333;
+}
+
+.tasks-wrapper {
+    padding: 20px;
+    margin-bottom: 2em;
+    position: relative;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid #f7f7f7;
+    border-radius: 7px;
+    box-sizing: border-box;
+}
+
+.flex9-child {
+    margin-bottom: 2%;
+    padding: 2%;
+    border: 2px solid #666;
+    border-radius: 7px;
+    box-sizing: border-box;
+}
+
+.not-done-bg {
+    background-color: #f7f7f7 !important;
+}
+
+.done-bg {
+    background-color: lightgreen !important;
+}

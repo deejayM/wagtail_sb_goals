@@ -1,21 +1,49 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "home/base.html" %}
+{% load wagtailcore_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
-
-{% block extra_css %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
 
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-{% include 'home/welcome_page.html' %}
+<header class="merged nice-padding">
+    <div class="row row-flush">
+        <div class="col1">
+            <div class="avatar"><img src="{{ request.user.wagtail_userprofile.avatar.url }}" alt=""></div>
+        </div>
+        <div class="col9">
+            <h1>Welcome to the SB Goals</h1>
+            <div class="user-name">{{ username|safe }}</div>
+        </div>
+    </div>
+</header>
 
-{% endblock content %}
+    <div class="messages">
+
+        {% if not user.is_authenticated %}
+        <span style="font-size:16px">Please register to use this app.  Thank you.</span>
+        {% endif %}
+
+
+
+    </div>
+
+
+<div class="tasks-wrapper nice-padding">
+    <h1>SB Goals</h1>
+    <div class="flex flex9">
+        <p><i>Helping you achieve your Surfing, snowboarding and skateboarding goals. </i></p>
+        {% if user.is_authenticated %}
+        <span style="font-size:12px">{{ welcome_msg|safe }}</span>
+
+
+        {% else %}
+        <span style="font-size:12px">Please login to the <a href="/login">SB Goals App</a> to add Tasks, Surfs and Equipment.
+            If you haven't got an account yet you can register here <a href="/register">SB Goals Account</a> </span>
+        {% endif %}
+    </div>
+    <!-- which activiity is your worst performer ! -->
+    <!-- what's the surf like today -->
+    <!-- what board should you take in -->
+
+</div>
+{{ page.body|richtext }}
+{% endblock content %}}

@@ -1,0 +1,23 @@
+{% extends "home/base.html" %}
+{% block content %}
+{% if full_task_list %}
+{% include "tasks/tasks_header.html" %}
+<div class="tasks-wrapper nice-padding">
+    <h1>Your Daily Task List</h1>
+    <div class="flex flex9">
+    {% for task in full_task_list %}
+    <div class="child flex9-child {% if task.has_been_done_recently %}done-bg{% else %}not-done-bg{% endif %}"><a href="{% url 'tasks:detail' task.id %}" >{% if task.has_been_done_recently %}
+        <strike>
+        {% endif %}{{ task.task_text }}{% if task.has_been_done_recently %}
+            </strike>
+                {% endif %}</a>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="nice-padding">
+<p>No tasks are available.</p>
+</div>
+{% endif %}
+{% endblock content %}

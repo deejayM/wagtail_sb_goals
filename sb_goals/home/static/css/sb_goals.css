@@ -1,0 +1,23 @@
+.card_image_centre_crop {
+    object-fit: cover;
+    max-height: 150px;
+}
+
+.top-padding {
+    margin-top: 2em;
+}
+
+.flex-even {
+    flex: 1;
+}
+
+.sb_card_min_width {
+    min-width: 220px;
+}
+
+.wagtail-icon:before {content: ''}
+
+.taskGraphs {
+    max-width: 300pt !important;
+    max-height: 300pt !important;
+}
